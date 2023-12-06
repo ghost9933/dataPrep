@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("User ID:", userID.value); // Log the userID value
 
             try {
-                const response = await axios.post('localhost:5000/upload', formData, {
+                const response = await axios.post('34.174.88.226:5000/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
