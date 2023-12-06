@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const test_ip = 'http://localhost:5000';
 
 
-    const sparkOperations = ['filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
+    const sparkOperations = ['filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy','mean_normalization'];
 
     fileInput.addEventListener('change', (event) => {
         selectedFile = event.target.files[0]; // Store the selected file
@@ -165,9 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const apiUrl = 'http://34.174.88.226:8000/projects/jobsapi/';
 
-            const response = await axios.post(apiUrl, triggerJson, {
+            const response = await axios.post(apiUrl, triggerJson,{
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type':'application/json'
                 },
             });
 
@@ -179,21 +179,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById("dataField").value = response.data.download_url;
 
-            var dataField = document.getElementById("dataField");
-
-            // Select the text in the textfield
-            dataField.select();
-            dataField.setSelectionRange(0, 99999); /* For mobile devices */
-
-            // Copy the selected text to clipboard
-            navigator.clipboard.writeText(dataField.value)
-                .then(() => {
-                    // Alert the user that the link is copied
-                    alert("Link copied to clipboard: " + dataField.value);
-                })
-                .catch(error => {
-                    console.error('Error copying to clipboard:', error);
-                });
+            function copyToClipboard() {
+                var dataField = document.getElementById("dataField");
+            
+                // Select the text in the textfield
+                dataField.select();
+                dataField.setSelectionRange(0, 99999); /* For mobile devices */
+            
+                // Copy the selected text to clipboard
+                navigator.clipboard.writeText(dataField.value)
+                    .then(() => {
+                        // Alert the user that the link is copied
+                        alert("Link copied to clipboard: " + dataField.value);
+                    })
+                    .catch(error => {
+                        console.error('Error copying to clipboard:', error);
+                    });
+            }
+            
         } catch (error) {
             console.error('Error:', error);
 
@@ -204,4 +207,5 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+    copyToClipboard();
 });
