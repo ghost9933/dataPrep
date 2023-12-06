@@ -8,12 +8,7 @@ const app = express();
 // app.use(cors());
 // app.use(cors(corsOptions));
 // 
-// Enable CORS only for a specific origin
-app.use(cors({
-  origin: 'http://localhost:5000', // Adjust the port as needed
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-}));
+
 
 // app.use(cors({ origin: '*' }));
 
