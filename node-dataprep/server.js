@@ -10,7 +10,7 @@ const app = express();
 // 
 
 
-// app.use(cors({ origin: '*' }));
+app.use(cors({ origin: '*' }));
 
 const initRoutes = require("./src/routes");
 
