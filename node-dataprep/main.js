@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     const uploadButton = document.getElementById('uploadButton');
     const fileInput = document.getElementById('fileInput');
     const userID = document.getElementById('userID');
-    
+
     let selectedFile = null; // contains our complete file
     let jsonSelectedFile = null; // contains the json file
     let filename = null; // contains the filename without extension
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const test_ip = 'http://localhost:5000';
 
 
-    const sparkOperations = ['filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy'];
+    const sparkOperations = ['filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy','mean_normalization'];
 
     fileInput.addEventListener('change', (event) => {
         selectedFile = event.target.files[0]; // Store the selected file
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('userID', userID.value);
 
             console.log("User ID:", userID.value); // Log the userID value
-// tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
+            // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
                 const response = await axios.post(`${prod_ip}/upload`, formData, {
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const operation = document.getElementById(`operation${i}`).value;
 
             const rule = {
-                columnName: columnName,
+                column: columnName,
                 operation: operation,
             };
 
@@ -114,10 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
         displayJSON(rules);
 
         const jsonfilename = `${filename}.json`;
-        const jsonfilename_blob = new Blob([cleaningRulesJSON],{type:'application/json'});
+        const jsonfilename_blob = new Blob([cleaningRulesJSON], { type: 'application/json' });
 
-        const jsonNew = new File([jsonfilename_blob], jsonfilename, {type: 'application/json'});
-       // json file created here
+        const jsonNew = new File([jsonfilename_blob], jsonfilename, { type: 'application/json' });
+        // json file created here
         console.log('JSONNew', jsonNew.name);
         console.log('JSONNew', jsonNew);
 
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('userID', userID.value);
 
             console.log("User ID:", userID.value); // Log the userID value
-// tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
+            // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
                 const response = await axios.post(`${prod_ip}/upload`, formData, {
@@ -154,22 +154,34 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("No file selected");
         }
 
-        // console.log('JSONFilename', jsonfilename);
-        // console.log('JSON blob', jsonfilename_blob);
-        // try {
-        //     const apiUrl = 'localhost:8000/projects/jobsapi/';
+        const triggerJson = {
+            "project_name": userID.value,
+            "project_id": userID.value,
+            "dataset_name": filename,
+            "username": userID.value
+        };
 
-        //     const response = await axios.post(apiUrl, rules);
+        console.log('Trigger JSON:', triggerJson);
+        try {
+            const apiUrl = 'http://34.174.88.226:8000/projects/jobsapi/';
 
-        //     console.log('Response:', response.data.download_url);
-        // } catch (error) {
-        //     console.error('Error:', error);
+            const response = await axios.post(apiUrl, triggerJson,{
+                headers: {
+                    'Content-Type':'application/json'
+                },
+            });
 
-        //     if (error.response && error.response.status === 500) {
-        //         console.log('No response');
-        //     } else {
-        //         console.log('Error occurred');
-        //     }
-        // }
+            console.log(response);
+
+            console.log('Response:', response.data.download_url);
+        } catch (error) {
+            console.error('Error:', error);
+
+            if (error.response && error.response.status === 500) {
+                console.log('No response');
+            } else {
+                console.log('Error occurred');
+            }
+        }
     });
 });
