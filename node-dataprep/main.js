@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (error.response && error.response.status === 500) {
                     alert("File uploaded successfully");
                 } else {
+                    console.log('error:', error);
                     alert("File upload failed. Please try again.");
                 }
             }
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayJSON(rules);
 
         try {
-            const apiUrl = 'http://34.174.88.226:8000/projects/jobsapi/';
+            const apiUrl = 'localhost:8000/projects/jobsapi/';
 
             const response = await axios.post(apiUrl, rules);
 
