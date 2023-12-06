@@ -10,7 +10,7 @@ const app = express();
 // 
 // Enable CORS only for a specific origin
 app.use(cors({
-  origin: 'http://localhost:80', // Adjust the port as needed
+  origin: 'http://localhost:5000', // Adjust the port as needed
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 }));
