@@ -3,7 +3,7 @@ const { format } = require("util");
 const { Storage } = require("@google-cloud/storage");
 
 const storage = new Storage({ keyFilename: "../dataprepBackend/keys.json" });
-const bucket = storage.bucket("data-prep-bucket");
+const bucket = storage.bucket("inclasslab3");
 
 const upload = async (req, res) => {
   try {
