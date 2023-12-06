@@ -2,7 +2,7 @@ const processFile = require("../middleware/upload");
 const { format } = require("util");
 const { Storage } = require("@google-cloud/storage");
 
-const storage = new Storage({ keyFilename: "keys/google-cloud-key.json" });
+const storage = new Storage({ keyFilename: "dataprepBackend/keys.json" });
 const bucket = storage.bucket("data-prep-bucket");
 
 const upload = async (req, res) => {
