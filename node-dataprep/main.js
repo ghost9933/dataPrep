@@ -1,9 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // const selectFileButton = document.getElementById('selectFileButton');
+    
     const uploadButton = document.getElementById('uploadButton');
     const fileInput = document.getElementById('fileInput');
     const userID = document.getElementById('userID');
-    let selectedFile = null;
+    
+    let selectedFile = null; // contains our complete file
+    let jsonSelectedFile = null; // contains the json file
+    let filename = null; // contains the filename without extension
+
+    // prod IP
+    const prod_ip = 'http://34.174.88.226:5000';
+    const test_ip = 'http://localhost:5000';
+
 
     const sparkOperations = ['filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy'];
 
@@ -20,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("User ID:", userID.value); // Log the userID value
 // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
-                const response = await axios.post('http://34.174.88.226:5000/upload', formData, {
+                // hardcoded, need to update when we restart instance?!
+                const response = await axios.post(`${prod_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -32,6 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 if (error.response && error.response.status === 500) {
                     alert("File uploaded successfully");
+                    const lastDot = selectedFile.name.lastIndexOf('.');
+                    filename = selectedFile.name.substring(0, lastDot);
+                    console.log(filename);
                 } else {
                     console.log('error:', error);
                     alert("File upload failed. Please try again.");
@@ -101,20 +113,63 @@ document.addEventListener('DOMContentLoaded', () => {
         // Display the generated JSON on the web page
         displayJSON(rules);
 
-        try {
-            const apiUrl = 'localhost:8000/projects/jobsapi/';
+        const jsonfilename = `${filename}.json`;
+        const jsonfilename_blob = new Blob([cleaningRulesJSON],{type:'application/json'});
 
-            const response = await axios.post(apiUrl, rules);
+        const jsonNew = new File([jsonfilename_blob], jsonfilename, {type: 'application/json'});
+       // json file created here
+        console.log('JSONNew', jsonNew.name);
+        console.log('JSONNew', jsonNew);
 
-            console.log('Response:', response.data.download_url);
-        } catch (error) {
-            console.error('Error:', error);
+        // upload this created json file to gcs bucket in the same path 
 
-            if (error.response && error.response.status === 500) {
-                console.log('No response');
-            } else {
-                console.log('Error occurred');
+        if (1) {
+            const formData = new FormData();
+            formData.append('file', jsonNew);
+            formData.append('userID', userID.value);
+
+            console.log("User ID:", userID.value); // Log the userID value
+// tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
+            try {
+                // hardcoded, need to update when we restart instance?!
+                const response = await axios.post(`${test_ip}/upload`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+
+                console.log('Json File uploaded successfully:', response.data);
+                alert("Json File uploaded successfully");
+
+            } catch (error) {
+                if (error.response && error.response.status === 500) {
+                    alert("Json File uploaded successfully");
+                } else {
+                    console.log('error:', error);
+                    alert("File upload failed. Please try again.");
+                }
             }
+        } else {
+            console.error('No file selected');
+            alert("No file selected");
         }
+
+        // console.log('JSONFilename', jsonfilename);
+        // console.log('JSON blob', jsonfilename_blob);
+        // try {
+        //     const apiUrl = 'localhost:8000/projects/jobsapi/';
+
+        //     const response = await axios.post(apiUrl, rules);
+
+        //     console.log('Response:', response.data.download_url);
+        // } catch (error) {
+        //     console.error('Error:', error);
+
+        //     if (error.response && error.response.status === 500) {
+        //         console.log('No response');
+        //     } else {
+        //         console.log('Error occurred');
+        //     }
+        // }
     });
 });

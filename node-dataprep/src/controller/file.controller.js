@@ -13,14 +13,11 @@ const upload = async (req, res) => {
       return res.status(400).send({ message: "Please upload a file!" });
     }
     const userID = req.body.userID;
-    const projectID = req.body.projectID;
     const fileName = req.file.originalname;
-    // const fileInFolder = '${folderName}/${req.file.originalname}';
-    // const folderPath = `${userID}/${projectID}`;
-    // const fileInFolder = `${folderPath}/${fileName}`;
+    
     const fileInFolder = `Raw-Data/${userID}/${fileName}`
     console.log("User ID:", userID); // Log the userID value
-    console.log("Project ID:", projectID); 
+
 
     // try {
     //   await bucket.file(folderPath).save(); // Trailing slash creates a folder
