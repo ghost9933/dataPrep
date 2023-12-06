@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("User ID:", userID.value); // Log the userID value
 // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
-                const response = await axios.post('/upload', formData, {
+                const response = await axios.post('http://127.0.0.1/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
