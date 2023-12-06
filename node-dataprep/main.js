@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('userID', userID.value);
 
             console.log("User ID:", userID.value); // Log the userID value
-
+// tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 const response = await axios.post('34.174.88.226:5000/upload', formData, {
                     headers: {
