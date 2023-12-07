@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let filename = null; // contains the filename without extension
 
     // prod IP
-    const prod_ip = 'http://34.174.88.226:5000';
+    const prod_ip = 'http://34.174.230.43:5000';
     const test_ip = 'http://localhost:5000';
+    const backend = 'http://localhost:8000'
 
 
     const sparkOperations = ['filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy','mean_normalization'];
@@ -163,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log('Trigger JSON:', triggerJson);
         try {
-            const apiUrl = 'http://34.174.88.226:8000/projects/jobsapi/';
+            const apiUrl = `${backend}/projects/jobsapi/`;
 
             const response = await axios.post(apiUrl, triggerJson,{
                 headers: {
