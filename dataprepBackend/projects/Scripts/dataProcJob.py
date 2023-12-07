@@ -35,10 +35,32 @@ def process_data(input_path, output_path, operations):
     # Read CSV file from Google Cloud Storage
     df = spark.read.csv(input_path, header=True, inferSchema=True)
 
+    for transformation in operations:
+        if transformation['operation'] == "mean_normalization":
+            df = mean_normalization(df, transformation['column'])
+        elif transformation['operation'] == 'filter':
+            if transformation['condition'] == 'equals':
+                df = df.filter(df[transformation['column']] == transformation['value'])
+            elif transformation['condition'] == 'greater_than':
+                df = df.filter(df[transformation['column']] > transformation['value'])
+            elif transformation['condition'] == 'less_than':
+                df = df.filter(df[transformation['column']] < transformation['value'])
+        elif transformation['operation'] == 'rename':
+            df = df.withColumnRenamed(transformation['old_name'], transformation['new_name'])
+        elif transformation['operation'] == 'drop':
+            df = df.drop(transformation['column'])
+        elif transformation['operation'] == 'select':
+            df = df.select(transformation['columns'])
+        elif transformation['operation'] == 'fillna':
+            df = df.fillna(transformation['value'], subset=[transformation['column']])
+        elif transformation['operation'] == 'cast':
+            df = df.withColumn(transformation['column'], df[transformation['column']].cast(transformation['type']))
+
     # Perform specified operations
-    for column_name, operation in operations.items():
-        if operation == "mean_normalization":
-            df = mean_normalization(df, column_name)
+    # for column_name, operation in operations.items():
+    #     if operation == "mean_normalization":
+    #         df = mean_normalization(df, column_name)
+        
         # Add more operations as needed
 
     # Write the processed DataFrame to Google Cloud Storage
