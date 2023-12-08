@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let filename = null; // contains the filename without extension
 
     // prod IP
-    const prod_ip = 'http://34.174.230.43:5000';
+    const prod_ip = 'http://34.174.86.160:5000';
     const test_ip = 'http://localhost:5000';
-    const backend = 'http://34.174.230.43:8000'
+    const backend = 'http://34.174.86.160:8000'
 
 
     const sparkOperations = ['filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy','mean_normalization'];
