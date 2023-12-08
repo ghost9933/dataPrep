@@ -20,14 +20,14 @@
         <div id="rulesContainer"></div>
         <button type="button" id="addRule">Add Rule</button>
         <button type="button" id="deleteRule">Delete Last Rule</button><br>
-        <label for="cleaningRules">Generat JSON Rules:</label>
+        <label for="cleaningRules">Generate JSON Rules:</label>
         <input type="submit" value="Generate/ upload to bucket JSON Rules">
     </form>
     <div id="jsonContainer"></div>
     
     <div>
-        <input type="text" id="dataField" placeholder="" readonly>
-        <button id="copytoClip" onclick="copyToClipboard()">Copy Link</button>
+        <input type="text" id="dataField" placeholder="We are processing your data!" readonly>
+        <button onclick="copyToClipboard()">Copy Link</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

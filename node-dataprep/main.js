@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedFile = null; // contains our complete file
     let jsonSelectedFile = null; // contains the json file
     let filename = null; // contains the filename without extension
+    const header = ["-select-"]; // contains the header of the csv file
 
     // prod IP
     const prod_ip = 'http://34.174.86.160:5000';
@@ -14,11 +15,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const backend = 'http://34.174.86.160:8000'
 
 
-    const sparkOperations = ['filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
+    const sparkOperations = ['-select-','filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
 
     fileInput.addEventListener('change', (event) => {
         selectedFile = event.target.files[0]; // Store the selected file
+
+        // Read the header when a file is selected
+        if (selectedFile) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const content = e.target.result;
+
+                // Assuming the header is in the first line of the CSV
+                const firstLine = content.split('\n')[0];
+                header.splice(1, header.length, ...firstLine.split(','));
+
+                // Log or use the header array as needed
+                console.log('CSV Header:', header);
+            };
+
+            reader.readAsText(selectedFile);
+        }
     });
+
 
     uploadButton.addEventListener('click', async () => {
         if (selectedFile) {
@@ -65,11 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const ruleDiv = document.createElement('div');
         ruleDiv.innerHTML = `
-            <label for="columnName${ruleCount}">Column Name:</label>
-            <input type="text" id="columnName${ruleCount}" name="columnName${ruleCount}" required>
+            <label for="columnName${ruleCount}" >Column Name:</label>
+            <select id="columnName${ruleCount}" name="columnName${ruleCount}" required style="width: 150px">
+                ${header.map(colName => `<option value="${colName}">${colName}</option>`).join('')}
+            </select>
 
             <label for="operation${ruleCount}">Operation:</label>
-            <select id="operation${ruleCount}" name="operation${ruleCount}">
+            <select id="operation${ruleCount}" name="operation${ruleCount}" required style="width: 150px">
                 ${sparkOperations.map(op => `<option value="${op}">${op}</option>`).join('')}
             </select>
             <br>
@@ -112,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Generated Cleaning Rules:', cleaningRulesJSON);
 
         // Display the generated JSON on the web page
-        displayJSON(rules);
+        // displayJSON(rules);
 
         const jsonfilename = `${filename}.json`;
         const jsonfilename_blob = new Blob([cleaningRulesJSON], { type: 'application/json' });
@@ -178,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             console.log('Response:', response.data.download_url);
 
+            dataField.value = response.data.download_url;
 
         } catch (error) {
             console.error('Error:', error);
@@ -189,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-    
+
 
 });
 

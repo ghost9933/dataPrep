@@ -16,6 +16,12 @@ input {
     padding: 8px;
 }
 
+#dataField {
+    margin: 5px;
+    padding: 8px;
+    width: 200px;
+}
+
 /* Style the buttons */
 button {
     padding: 10px 20px;

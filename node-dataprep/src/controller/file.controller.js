@@ -40,7 +40,7 @@ const upload = async (req, res) => {
       );
 
       try {
-        await bucket.file(req.file.originalname).makePublic();
+        await bucket.file(req.file.originalname);
       } catch {
         return res.status(500).send({
           message:
