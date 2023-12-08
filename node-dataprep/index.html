@@ -2,32 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
     <title>DataPrep</title>
 </head>
 <body>
-    <h1>DataPrep</h1>
-    <input type="file" id="fileInput">
-    <input type="text" id="userID" placeholder="Enter Job ID">
-    <button id="uploadButton">Upload</button>
+    <div class="container">
+        <h1>DataPrep</h1>
+        <div class="form-group">
+            <label for="fileInput">Select CSV File:</label>
+            <input type="file" class="form-control" id="fileInput">
+        </div>
+        <div class="form-group">
+            <label for="userID">Enter Job ID:</label>
+            <input type="text" class="form-control" id="userID" placeholder="Enter Job ID">
+        </div>
+        <button class="btn btn-primary" id="uploadButton">Upload</button>
 
-    <br>
-    <br>
-    <br>
+        <div class="mt-4">
+            <h4>Define Required Configurations</h4>
+            <form id="cleaningForm" enctype="multipart/form-data">
+                <div id="rulesContainer"></div>
+                <button type="button" class="btn btn-success" id="addRule">Add Rule</button>
+                <button type="button" class="btn btn-danger" id="deleteRule">Delete Last Rule</button><br>
+                <label for="cleaningRules">Generate JSON Rules:</label>
+                <input type="submit" class="btn btn-primary" value="Generate/Upload to Bucket JSON Rules">
+            </form>
+        </div>
 
-    <h4>Define required configurations</h1>
-    <form id="cleaningForm" enctype="multipart/form-data">
-        <div id="rulesContainer"></div>
-        <button type="button" id="addRule">Add Rule</button>
-        <button type="button" id="deleteRule">Delete Last Rule</button><br>
-        <label for="cleaningRules">Generate JSON Rules:</label>
-        <input type="submit" value="Generate/ upload to bucket JSON Rules">
-    </form>
-    <div id="jsonContainer"></div>
-    
-    <div>
-        <input type="text" id="dataField" placeholder="We are processing your data!" readonly>
-        <button onclick="copyToClipboard()">Copy Link</button>
+        <div id="jsonContainer"></div>
+
+        <div class="form-group">
+            <label for="dataField">Link:</label>
+            <input type="text" class="form-control" id="dataField" placeholder="" readonly>
+            <button class="btn btn-info" id="copytoClip" onclick="copyToClipboard()">Copy Link</button>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
