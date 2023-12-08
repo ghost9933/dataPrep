@@ -5,7 +5,7 @@ const { Storage } = require("@google-cloud/storage");
 const storage = new Storage({ keyFilename: "../dataprepBackend/keys.json" });
 const bucket = storage.bucket("inclasslab3");
 
-const processFile = async (req, res) => {
+const processFileHeader = async (req, res) => {
   // Get the CSV file buffer from the request
   const csvBuffer = req.file.buffer;
 
@@ -29,7 +29,7 @@ const processFile = async (req, res) => {
 
 const upload = async (req, res) => {
   try {
-    await processFile(req, res);
+    await processFileHeader(req, res);
 
     if (!req.file) {
       return res.status(400).send({ message: "Please upload a file!" });
