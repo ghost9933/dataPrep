@@ -5,26 +5,41 @@ const { Storage } = require("@google-cloud/storage");
 const storage = new Storage({ keyFilename: "../dataprepBackend/keys.json" });
 const bucket = storage.bucket("inclasslab3");
 
+const processFileHeader = async (req, res) => {
+  // Get the CSV file buffer from the request
+  const csvBuffer = req.file.buffer;
+
+  // Create a readable stream for the CSV buffer
+  const stream = readline.createInterface({
+    input: fs.createReadStream(null, { buffer: csvBuffer }),
+  });
+
+  // Read the first line (header) from the stream
+  stream.once('line', (line) => {
+    // Parse the header line
+    const header = line.split(',');
+
+    // Attach the header to the request object for later use
+    req.csvHeader = header;
+
+    // Close the stream
+    stream.close();
+  });
+};
+
 const upload = async (req, res) => {
   try {
-    await processFile(req, res);
+    await processFileHeader(req, res);
 
     if (!req.file) {
       return res.status(400).send({ message: "Please upload a file!" });
     }
+
     const userID = req.body.userID;
     const fileName = req.file.originalname;
-    
-    const fileInFolder = `Raw-Data/${userID}/${fileName}`
-    console.log("User ID:", userID); // Log the userID value
+    const fileInFolder = `Raw-Data/${userID}/${fileName}`;
+    console.log("User ID:", userID);
 
-
-    // try {
-    //   await bucket.file(folderPath).save(); // Trailing slash creates a folder
-    // } catch (err) {
-    //   // If the folder already exists or another error occurs, handle accordingly
-    //   return res.status(500).send({ message: "Could not create the folder." });
-    // }
     const blob = bucket.file(fileInFolder);
     const blobStream = blob.createWriteStream({
       resumable: false,
@@ -43,8 +58,7 @@ const upload = async (req, res) => {
         await bucket.file(req.file.originalname).makePublic();
       } catch {
         return res.status(500).send({
-          message:
-            `Uploaded the file successfully: ${req.file.originalname}, but public access is denied!`,
+          message: `Uploaded the file successfully: ${req.file.originalname}, but public access is denied!`,
           url: publicUrl,
         });
       }
@@ -52,6 +66,7 @@ const upload = async (req, res) => {
       res.status(200).send({
         message: "Uploaded the file successfully: " + req.file.originalname,
         url: publicUrl,
+        header: req.csvHeader,
       });
     });
 
@@ -70,6 +85,7 @@ const upload = async (req, res) => {
     });
   }
 };
+
 
 const getListFiles = async (req, res) => {
   try {
