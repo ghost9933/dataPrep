@@ -117,3 +117,16 @@ input[type="submit"] {
 #submitButton:hover {
     background-color: #c82333;
 }
+
+#copyAndText{
+    display: flex;
+}
+
+label{
+    align-items: center;
+    align-self: center;
+}
+
+.form-group{
+
+}

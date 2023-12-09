@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('fileInput');
     const userID = document.getElementById('userID');
 
+
     let selectedFile = null; // contains our complete file
     let jsonSelectedFile = null; // contains the json file
     let filename = null; // contains the filename without extension
@@ -15,13 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const backend = 'http://34.174.86.160:8000'
 
 
-    const sparkOperations = ['-select-','filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
+    const sparkOperations = ['-select-', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
 
     fileInput.addEventListener('change', (event) => {
         selectedFile = event.target.files[0]; // Store the selected file
-
+        console.log(fileInput);
         // Read the header when a file is selected
-        if (selectedFile) {
+        // if (selectedFile) {
+
+        if (selectedFile.name.endsWith('.csv')) {
+            // Valid CSV file, you can proceed with further processing
+            // alert('File is a valid CSV file. You can proceed with processing.');
+            // Here, you can add additional code to handle the file, such as uploading it to a server or processing its content.
             const reader = new FileReader();
 
             reader.onload = function (e) {
@@ -34,9 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Log or use the header array as needed
                 console.log('CSV Header:', header);
             };
-
             reader.readAsText(selectedFile);
+
+        } else {
+            // Invalid file type
+            alert('Please select a valid CSV file.');
+            fileInput.value = '';
+            selectedFile = null;
+
         }
+        // }
     });
 
 
@@ -216,20 +229,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+// output download button function
+function downloadFromLink() {
+    var dataField = document.getElementById("dataField");
+    if (dataField.value) {
+        window.open(dataField.value, '_blank');
+    }
+}
+
+// output copy link button function
 function copyToClipboard() {
     var dataField = document.getElementById("dataField");
-
     // Select the text in the textfield
     dataField.select();
     dataField.setSelectionRange(0, 99999); /* For mobile devices */
 
     // Copy the selected text to clipboard
-    navigator.clipboard.writeText(dataField.value)
-        .then(() => {
-            // Alert the user that the link is copied
-            alert("Link copied to clipboard: " + dataField.value);
-        })
-        .catch(error => {
-            console.log('Error copying to clipboard:', error);
-        });
+    if (dataField.value) {
+        navigator.clipboard.writeText(dataField.value)
+            .then(() => {
+                // Alert the user that the link is copied
+                alert("Link copied to clipboard: " + dataField.value);
+            })
+            .catch(error => {
+                console.log('Error copying to clipboard:', error);
+            });
+    }
 }
