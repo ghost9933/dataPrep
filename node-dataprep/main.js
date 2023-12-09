@@ -11,9 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = ["-select-", "auto"]; // contains the header of the csv file
 
     // prod IP
+    // whenever IP changed, update both prod_ip and backend 
     const prod_ip = 'http://34.174.96.222:5000';
     const test_ip = 'http://localhost:5000';
-    const backend = 'http://34.174.86.160:8000'
+    const backend = 'http://34.174.96.222:8000'
 
 
     const sparkOperations = ['-select-', 'auto',  'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
