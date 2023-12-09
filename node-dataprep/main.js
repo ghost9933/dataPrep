@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
-                const response = await axios.post(`${test_ip}/upload`, formData, {
+                const response = await axios.post(`${prod_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
-                const response = await axios.post(`${test_ip}/upload`, formData, {
+                const response = await axios.post(`${prod_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
