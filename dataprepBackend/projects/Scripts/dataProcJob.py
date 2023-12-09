@@ -1,19 +1,20 @@
+from pyspark.sql import functions as F
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pyspark.sql import functions
 from pyspark.sql.types import ShortType, FloatType 
+from pyspark.ml.feature import StringIndexer, OneHotEncoder
 from google.cloud import storage
 import json
-import sys
 import sys
 
 BUCKET_NAME='inclasslab3'
 
-def mean_normalization(df, column_name):
+def mean_normalization(df, column_name,mean_value):
     """
     Perform mean normalization on the specified column in the DataFrame.
     """
-    mean_value = df.agg(functions.mean(col(column_name))).collect()[0][0]
+    # mean_value = df.agg(functions.mean(col(column_name))).collect()[0][0]
     std_dev_value = df.agg(functions.stddev(col(column_name))).collect()[0][0]
 
     # Avoid division by zero
@@ -25,16 +26,83 @@ def mean_normalization(df, column_name):
 
     return df_normalized
 
+def categorical_encoding(df, col_name):
+    print(f"starting categorical encoding for {col_name} ...................")
+    indexer = StringIndexer(inputCol=col_name, outputCol=f"{col_name}_index")
+    df = indexer.fit(df).transform(df)
+    print(f"Finished categorical encoding for {col_name} ...................")
+    return df
+
+def fillNaNumerical(df, col_name,mean_value):
+    print(f"starting Fill NaN  for {col_name} ...................")
+    # mean_value = df.agg({col_name: 'mean'}).collect()[0][0]
+    df = df.fillna(mean_value, subset=col_name)
+    print(f" Filled Nan for {col_name} ...................")
+
+
+
+def smartProcess(df):
+    print("Automatic processing of the data started.... ")
+    schema = df.schema
+
+    numerical_columns = [field.name for field in schema.fields if 'StringType' not in str(field.dataType)]
+    string_columns = [field.name for field in schema.fields if 'StringType' in str(field.dataType)]
+
+    print(f"Numerical Columns detected: {numerical_columns}\nString Columns detected: {string_columns}")
+
+    # Handling Missing Values for Numerical Columns
+    for col_name in numerical_columns:
+        mean_value = df.agg({col_name: 'mean'}).collect()[0][0]
+        df = df.fillna(mean_value, subset=col_name)
+
+    # Handling Missing Values for String Columns
+    for col_name in string_columns:
+        df = df.fillna("UNKNOWN", subset=col_name)
+
+    # Calculate the average length of strings and cardinality in each string column
+    for col_name in string_columns:
+        col_stats = df.agg(
+            F.avg(F.length(F.col(col_name))).alias('avg_length'),
+            F.countDistinct(F.col(col_name)).alias('cardinality')
+        ).collect()[0]
+
+        avg_length = col_stats['avg_length']
+        cardinality = col_stats['cardinality']
+
+        print(f"Calculated Avg length for column - {col_name} = {avg_length}")
+        print(f"Calculated Cardinality for column - {col_name} = {cardinality}")
+
+        # Define thresholds based on your criteria
+        short_text_threshold = 50
+        long_text_threshold = 100
+        cardinality_threshold_percentage = 0.9
+
+        # Decide whether to treat the string column as categorical based on average length and cardinality
+        if avg_length <= short_text_threshold and cardinality <= cardinality_threshold_percentage * df.count():
+            print(f"The strings in '{col_name}' are likely short and have low cardinality, possibly suitable for categorical encoding.")
+            # Perform categorical encoding using StringIndexer
+            df = categorical_encoding(df, col_name)
+        elif short_text_threshold < avg_length <= long_text_threshold:
+            print(f"The strings in '{col_name}' are of moderate length.")
+        else:
+            print(f"The strings in '{col_name}' are likely long, possibly requiring additional text processing.")
+
+    # Process numerical columns
+    for col_name in numerical_columns:
+        df = fillNaNumerical(df, col_name,mean_value)
+        df = mean_normalization(df, col_name,mean_value)
+
+    return df
+
+
 def process_data(input_path, output_path, operations):
-    """
-    Read a CSV file from the specified input path, perform operations based on the provided dictionary,
-    and save the processed DataFrame to the specified output path.
-    """
+
     spark = SparkSession.builder.appName("DataProcessing").getOrCreate()
 
     # Read CSV file from Google Cloud Storage
     df = spark.read.csv(input_path, header=True, inferSchema=True)
 
+    # Perform specified operations
     for transformation in operations:
         if transformation['operation'] == "mean_normalization":
             df = mean_normalization(df, transformation['column'])
@@ -55,13 +123,10 @@ def process_data(input_path, output_path, operations):
             df = df.fillna(transformation['value'], subset=[transformation['column']])
         elif transformation['operation'] == 'cast':
             df = df.withColumn(transformation['column'], df[transformation['column']].cast(transformation['type']))
+        elif transformation['operation'] == 'auto':
+            df == smartProcess(df)
 
-    # Perform specified operations
-    # for column_name, operation in operations.items():
-    #     if operation == "mean_normalization":
-    #         df = mean_normalization(df, column_name)
-        
-        # Add more operations as needed
+
 
     # Write the processed DataFrame to Google Cloud Storage
     #df.write.csv(output_path, header=True, mode="overwrite")
@@ -93,7 +158,7 @@ def read_json_from_gcs(gcs_path):
 
 
 if __name__ == "__main__":
-    # Check if the correct number of command-line arguments are provided
+     # Check if the correct number of command-line arguments are provided
     #if len(sys.argv) != 4:
     #    print("Usage: python script.py <input_path> <output_path> <operations_dict>")
     #    sys.exit(1)
@@ -131,5 +196,3 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"An error occurred: {e}")
         sys.exit(1)
-
-
