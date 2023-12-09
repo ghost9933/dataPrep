@@ -19,8 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const sparkOperations = ['-select-', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
 
     fileInput.addEventListener('change', (event) => {
+
         selectedFile = event.target.files[0]; // Store the selected file
         console.log(fileInput);
+
         // Read the header when a file is selected
         // if (selectedFile) {
 
@@ -41,15 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('CSV Header:', header);
             };
             reader.readAsText(selectedFile);
+            const lastDot = selectedFile.name.lastIndexOf('.');
+            filename = selectedFile.name.substring(0, lastDot);
+            // console.log("filename");
 
         } else {
             // Invalid file type
             alert('Please select a valid CSV file.');
             fileInput.value = '';
             selectedFile = null;
-
         }
         // }
+
+        console.log("hello this error", selectedFile, filename, selectedFile.name);
     });
 
 
@@ -63,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
-                const response = await axios.post(`${prod_ip}/upload`, formData, {
+                const response = await axios.post(`${test_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -168,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
-                const response = await axios.post(`${prod_ip}/upload`, formData, {
+                const response = await axios.post(`${test_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
