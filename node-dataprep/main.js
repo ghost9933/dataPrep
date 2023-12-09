@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedFile = null; // contains our complete file
     let jsonSelectedFile = null; // contains the json file
     let filename = null; // contains the filename without extension
-    const header = ["-select-", "auto"]; // contains the header of the csv file
+    const header = ["", "auto"]; // contains the header of the csv file
 
     // prod IP
     // whenever IP changed, update both prod_ip and backend 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const backend = 'http://34.174.96.222:8000'
 
 
-    const sparkOperations = ['-select-', 'auto',  'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
+    const sparkOperations = ['', 'auto', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
 
     fileInput.addEventListener('change', (event) => {
 
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Assuming the header is in the first line of the CSV
                 const firstLine = content.split('\n')[0];
-                header.splice(1, header.length, ...firstLine.split(','));
+                header.splice(2, header.length, ...firstLine.split(','));
 
                 // Log or use the header array as needed
                 console.log('CSV Header:', header);
@@ -248,8 +248,11 @@ function downloadFromLink() {
 function copyToClipboard() {
     var dataField = document.getElementById("dataField");
     // Select the text in the textfield
+    console.log(dataField.value);
     dataField.select();
     dataField.setSelectionRange(0, 99999); /* For mobile devices */
+
+    console.log(dataField.value);
 
     // Copy the selected text to clipboard
     if (dataField.value) {
