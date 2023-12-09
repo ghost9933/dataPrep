@@ -247,15 +247,13 @@ function downloadFromLink() {
 // output copy link button function
 function copyToClipboard() {
     var dataField = document.getElementById("dataField");
+    // dataField = "";
     // Select the text in the textfield
-    console.log(dataField.value);
     dataField.select();
     dataField.setSelectionRange(0, 99999); /* For mobile devices */
 
-    console.log(dataField.value);
-
     // Copy the selected text to clipboard
-    if (dataField.value) {
+    if (dataField.value !== "") {
         navigator.clipboard.writeText(dataField.value)
             .then(() => {
                 // Alert the user that the link is copied
@@ -264,5 +262,8 @@ function copyToClipboard() {
             .catch(error => {
                 console.log('Error copying to clipboard:', error);
             });
+    }
+    else{
+        console.log("nothing to copy")
     }
 }
