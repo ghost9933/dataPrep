@@ -8,15 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedFile = null; // contains our complete file
     let jsonSelectedFile = null; // contains the json file
     let filename = null; // contains the filename without extension
-    const header = ["-select-"]; // contains the header of the csv file
+    const header = ["-select-", "auto"]; // contains the header of the csv file
 
     // prod IP
-    const prod_ip = 'http://34.174.86.160:5000';
+    const prod_ip = 'http://34.174.96.222:5000';
     const test_ip = 'http://localhost:5000';
     const backend = 'http://34.174.86.160:8000'
 
 
-    const sparkOperations = ['-select-', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
+    const sparkOperations = ['-select-', 'auto',  'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
 
     fileInput.addEventListener('change', (event) => {
 
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
-                const response = await axios.post(`${test_ip}/upload`, formData, {
+                const response = await axios.post(`${prod_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
-                const response = await axios.post(`${test_ip}/upload`, formData, {
+                const response = await axios.post(`${prod_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
