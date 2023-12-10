@@ -104,18 +104,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const rulesContainer = document.getElementById('rulesContainer');
 
         const ruleDiv = document.createElement('div');
+        ruleDiv.classList.add('flex-container');
         ruleDiv.innerHTML = `
-            <label for="columnName${ruleCount}" >Column Name:</label>
-            <select id="columnName${ruleCount}" name="columnName${ruleCount}" required style="width: 150px">
-                ${header.map(colName => `<option value="${colName}">${colName}</option>`).join('')}
-            </select>
+    <div class="rule-row">
+        <label for="columnName${ruleCount}" class="rule-label">Column Name:</label>
+        <select id="columnName${ruleCount}" name="columnName${ruleCount}" required class="rule-select">
+            ${header.map(colName => `<option value="${colName}">${colName}</option>`).join('')}
+        </select>
+    </div>
 
-            <label for="operation${ruleCount}">Operation:</label>
-            <select id="operation${ruleCount}" name="operation${ruleCount}" required style="width: 150px">
-                ${sparkOperations.map(op => `<option value="${op}">${op}</option>`).join('')}
-            </select>
-            <br>
-        `;
+    <div class="rule-row">
+        <label for="operation${ruleCount}" class="rule-label">Operation:</label>
+        <select id="operation${ruleCount}" name="operation${ruleCount}" required class="rule-select">
+            ${sparkOperations.map(op => `<option value="${op}">${op}</option>`).join('')}
+        </select>
+    </div>
+`;
 
         rulesContainer.appendChild(ruleDiv);
     });
@@ -263,7 +267,7 @@ function copyToClipboard() {
                 console.log('Error copying to clipboard:', error);
             });
     }
-    else{
+    else {
         console.log("nothing to copy")
     }
 }

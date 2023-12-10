@@ -25,7 +25,7 @@
     <div class="container">
       <h1>DataPrep</h1>
       <div class="form-group">
-        <label for="fileInput">Select CSV File:</label>
+        <label>Select CSV File:</label>
         <input type="file" class="form-control" id="fileInput" accept=".csv" />
       </div>
       <div class="form-group">
@@ -37,30 +37,29 @@
           placeholder="Enter Job ID"
         />
       </div>
-      <button class="btn btn-primary" id="uploadButton">Upload</button>
+      <button class="btn" id="uploadButton">Upload</button>
 
       <div class="mt-4">
-        <h4>Define Required Configurations</h4>
+        <label>Define Required Configurations:</label>
         <form id="cleaningForm" enctype="multipart/form-data">
-          <div id="rulesContainer"></div>
-          <button type="button" class="btn btn-success" id="addRule">
+          <div id="rulesContainer"  ></div>
+          <button type="button" class="btn" id="addRule">
             Add Rule
           </button>
-          <button type="button" class="btn btn-danger" id="deleteRule">
+          <button type="button" class="btn" id="deleteRule">
             Delete Last Rule</button
           ><br />
           <label for="cleaningRules">Generate JSON Rules:</label>
-          <input
-            type="submit"
-            class="btn btn-primary"
-            value="Generate/Upload to Bucket JSON Rules"
-          />
+          <button type="submit" class="btn">
+            Process Data
+          </button>
+          
         </form>
       </div>
 
       <div id="jsonContainer"></div>
 
-      <div class="copyAndDownload" id="copyAndText">
+      <div class="copyAndDownload">
         <label for="dataField" class="copyLabel">Link:</label>
         <input
           type="text"
@@ -72,15 +71,13 @@
           <span class="material-icons"> content_copy </span>
         </button>
       </div>
-      <div>
         <button
-          class="btn-download"
+          class="btn"
           id="copytoClip"
           onclick="downloadFromLink()"
         >
           Download
         </button>
-      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
