@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const backend = 'http://34.174.96.222:8000'
 
 
-    const sparkOperations = ['', 'auto', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization'];
+    const sparkOperations = ['', 'auto', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization', 'categorial_encoding', 'fillna', 'cast'];
 
     fileInput.addEventListener('change', (event) => {
 
