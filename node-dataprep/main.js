@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 console.log('Json File uploaded successfully:', response.data);
-                alert("Json File uploaded successfully");
+                alert("Processing File...");
 
             } catch (error) {
                 if (error.response && error.response.status === 500) {
