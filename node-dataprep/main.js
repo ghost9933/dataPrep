@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // whenever IP changed, update both prod_ip and backend 
     const prod_ip = 'http://34.174.96.222:5000';
     const test_ip = 'http://localhost:5000';
-    const backend = 'http://34.174.96.222:8000'
+    const backend = 'http://34.174.108.150:8000'
 
 
     const sparkOperations = ['', 'auto', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization', 'categorial_encoding', 'fillna', 'cast'];
@@ -61,6 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     uploadButton.addEventListener('click', async () => {
+        showLoader();
+
         if (selectedFile) {
             const formData = new FormData();
             formData.append('file', selectedFile);
@@ -70,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
-                const response = await axios.post(`${prod_ip}/upload`, formData, {
+                const response = await axios.post(`${test_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -85,15 +87,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     const lastDot = selectedFile.name.lastIndexOf('.');
                     filename = selectedFile.name.substring(0, lastDot);
                     console.log(filename);
+                    hideLoader();
                 } else {
                     console.log('error:', error);
                     alert("File upload failed. Please try again.");
+                    hideLoader();
                 }
             }
         } else {
             console.error('No file selected');
             alert("No file selected");
         }
+        hideLoader();
+        
     });
 
     let ruleCount = 0;
@@ -179,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
-                const response = await axios.post(`${prod_ip}/upload`, formData, {
+                const response = await axios.post(`${test_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -200,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('No file selected');
             alert("No file selected");
         }
-
+        showLoader();
         const triggerJson = {
             "project_name": userID.value,
             "project_id": userID.value,
@@ -223,6 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             console.log('Response:', response.data.download_url);
+
+            if (response) {
+                hideLoader();
+            }
+
 
             dataField.value = response.data.download_url;
 
@@ -270,4 +281,45 @@ function copyToClipboard() {
     else {
         console.log("nothing to copy")
     }
+}
+
+
+// loader functions
+function showLoader() {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('loader').style.display = 'block';
+  
+    // Disable all interactive elements
+    disableInteractiveElements();
+}
+
+function hideLoader() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('loader').style.display = 'none';
+  
+    // Enable all interactive elements
+    enableInteractiveElements();
+}
+
+
+function disableInteractiveElements() {
+    // Disable all interactive elements
+    var interactiveElements = document.querySelectorAll('a, button, input, select, textarea');
+    interactiveElements.forEach(function (element) {
+        element.disabled = true;
+    });
+
+    // Optionally, you can add a class to visually indicate that elements are disabled
+    document.body.classList.add('disabled');
+}
+
+function enableInteractiveElements() {
+    // Enable all interactive elements
+    var interactiveElements = document.querySelectorAll('a, button, input, select, textarea');
+    interactiveElements.forEach(function (element) {
+        element.disabled = false;
+    });
+
+    // Optionally, remove the class that indicates elements are disabled
+    document.body.classList.remove('disabled');
 }
