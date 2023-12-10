@@ -25,7 +25,7 @@
     <div class="container">
       <h1>DataPrep</h1>
       <div class="form-group">
-        <label>Select CSV File:</label>
+        <label><b>Step 1-</b> Select CSV File:</label>
         <input type="file" class="form-control" id="fileInput" accept=".csv" />
       </div>
       <div class="form-group">
@@ -40,7 +40,7 @@
       <button class="btn" id="uploadButton">Upload</button>
 
       <div class="mt-4">
-        <label>Define Required Configurations:</label>
+        <label><b>Step 2-</b> Define Configurations:</label>
         <form id="cleaningForm" enctype="multipart/form-data">
           <div id="rulesContainer"  ></div>
           <button type="button" class="btn" id="addRule">
@@ -49,7 +49,7 @@
           <button type="button" class="btn" id="deleteRule">
             Delete Last Rule</button
           ><br />
-          <label for="cleaningRules">Generate JSON Rules:</label>
+          <label for="cleaningRules"><b>Step 3-</b>Start Processing</label>
           <button type="submit" class="btn">
             Process Data
           </button>
