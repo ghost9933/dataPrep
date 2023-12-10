@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // prod IP
     // whenever IP changed, update both prod_ip and backend 
-    const prod_ip = 'http://34.174.96.222:5000';
+    const prod_ip = 'http://34.174.108.150:5000';
     const test_ip = 'http://localhost:5000';
     const backend = 'http://34.174.108.150:8000'
 
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
-                const response = await axios.post(`${test_ip}/upload`, formData, {
+                const response = await axios.post(`${prod_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // tried using a localhost but dfacing issues with cors current stop gap fix is updating ip of the server here
             try {
                 // hardcoded, need to update when we restart instance?!
-                const response = await axios.post(`${test_ip}/upload`, formData, {
+                const response = await axios.post(`${prod_ip}/upload`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
