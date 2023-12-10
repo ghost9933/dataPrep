@@ -26,10 +26,10 @@ body::before {
   width: 100%;
   height: 100%;
   z-index: -1; /* Place the pseudo-element below the content */
-  background-image: url('BKG.webp');
+  background-image: url('BKG.png');
   background-size: cover;
   background-position: center;
-  filter: blur(8px); /* Adjust the blur intensity */
+  filter: blur(5px); /* Adjust the blur intensity */
 }
 
  /* Place the content above the blurred background */
@@ -50,7 +50,9 @@ input {
   margin: 20px auto;
   padding: 20px;
   background-color: #d7e3fc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
 }
 
 /* Style the buttons */
