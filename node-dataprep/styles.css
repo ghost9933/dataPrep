@@ -37,7 +37,7 @@ body::before {
 
 label {
   display: flex;
-  width: 50%;
+  /* width: 50%; */
 }
 input {
   margin: 5px;
