@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const backend = 'http://34.174.91.237:8000'
 
 
-    const sparkOperations = ['auto', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization', 'categorial_encoding', 'fillna', 'cast','detect_outliers','log_transformation'];
+    const sparkOperations = ['auto', 'drop', 'mean_normalization', 'log_transformation', 'categorial_encoding', 'detect_outliers', 'fillna', 'filter', 'withColumn', 'orderBy'];
 
     fileInput.addEventListener('change', (event) => {
 
@@ -61,10 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     uploadButton.addEventListener('click', async () => {
 
-        console.log("bye",userID.value);
+        console.log("bye", userID.value);
         showLoader();
 
-        if (selectedFile && userID.value!== "") {
+        if (selectedFile && userID.value !== "") {
             const formData = new FormData();
             formData.append('file', selectedFile);
             formData.append('userID', userID.value);
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const cleaningRulesJSON = JSON.stringify(rules, null, 2);
 
-        if(cleaningRulesJSON == "[]") {
+        if (cleaningRulesJSON == "[]") {
             alert("Please add atleast one rule");
             return;
         }
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
             hideLoader();
             alert("An error has occured to process your request. Please Retry!");
-            
+
             if (error.response && error.response.status === 500) {
                 console.log('No response');
                 hideLoader();
