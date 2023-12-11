@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Read the header when a file is selected
         // if (selectedFile) {
-
         if (selectedFile.name.endsWith('.csv')) {
             // Valid CSV file, you can proceed with further processing
             // alert('File is a valid CSV file. You can proceed with processing.');
@@ -61,9 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     uploadButton.addEventListener('click', async () => {
+
+        console.log("bye",userID.value);
         showLoader();
 
-        if (selectedFile) {
+        if (selectedFile && userID.value!== "") {
             const formData = new FormData();
             formData.append('file', selectedFile);
             formData.append('userID', userID.value);
@@ -95,11 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } else {
-            console.error('No file selected');
-            alert("No file selected");
+            console.error('No file selected or No Job ID entered');
+            alert("No file selected or No Job ID entered");
         }
         hideLoader();
-        
+
     });
 
     let ruleCount = 0;
@@ -269,17 +270,40 @@ function copyToClipboard() {
 
     // Copy the selected text to clipboard
     if (dataField.value !== "") {
-        navigator.clipboard.writeText(dataField.value)
-            .then(() => {
-                // Alert the user that the link is copied
-                alert("Link copied to clipboard: " + dataField.value);
-            })
-            .catch(error => {
-                console.log('Error copying to clipboard:', error);
-            });
+        var textArea = document.createElement("textarea");
+        textArea.value = dataField.value;
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+            document.execCommand('copy');
+            alert("Link copied to clipboard: " + dataField.value);
+        } catch (err) {
+            alert("Link copied to clipboard: " + text);
+            console.log('Fallback: Oops, unable to copy', err);
+        } finally {
+            document.body.removeChild(textArea);
+        }
+
     }
     else {
         console.log("nothing to copy")
+    }
+}
+
+function fallbackCopyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+        document.execCommand('copy');
+        alert("Link copied to clipboard: " + text);
+    } catch (err) {
+        console.log('Fallback: Oops, unable to copy', err);
+    } finally {
+        document.body.removeChild(textArea);
     }
 }
 
@@ -288,7 +312,7 @@ function copyToClipboard() {
 function showLoader() {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('loader').style.display = 'block';
-  
+
     // Disable all interactive elements
     disableInteractiveElements();
 }
@@ -296,7 +320,7 @@ function showLoader() {
 function hideLoader() {
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('loader').style.display = 'none';
-  
+
     // Enable all interactive elements
     enableInteractiveElements();
 }

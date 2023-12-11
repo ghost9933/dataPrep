@@ -190,6 +190,11 @@ input[type="submit"] {
   background-color: #cccccc;
 }
 
+.btn-info:active {
+  background-color: #6e78ff;
+}
+
+
 /* Loader CSS */
 
 .loader {
