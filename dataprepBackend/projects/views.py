@@ -6,6 +6,7 @@ from google.cloud import storage
 import re
 from datetime import datetime, timedelta
 import sys
+import pyshorteners
 print(sys.path)
 from param import PROJECT_ID, JOB_NAME, TEMP_DIR, STAGING_LOCATION, REGION,SERVICE_ACCOUNT_EMAIL, KEY_FILE, input_files,JOB_FILE_PATH,CLUSTER_NAME,BUCKET_NAME
 
@@ -99,7 +100,13 @@ class DataprocJobView(APIView):
             expiration=expiration_time,
             method='GET',
         )
-        return signed_url
+        
+        long_url =signed_url
+        type_tiny = pyshorteners.Shortener()
+        short_url = type_tiny.tinyurl.short(long_url)
+        print("The Shortened URL is:",short_url)
+
+        return short_url
 
 
     
