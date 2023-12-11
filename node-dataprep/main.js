@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // prod IP
     // whenever IP changed, update both prod_ip and backend 
-    const prod_ip = 'http://34.174.108.150:5000';
+    const prod_ip = 'http://34.174.91.237:5000';
     const test_ip = 'http://localhost:5000';
-    const backend = 'http://34.174.108.150:8000'
+    const backend = 'http://34.174.91.237:8000'
 
 
     const sparkOperations = ['', 'auto', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization', 'categorial_encoding', 'fillna', 'cast'];
