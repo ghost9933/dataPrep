@@ -13,8 +13,30 @@ import sys
 BUCKET_NAME='inclasslab3'
 
 
+def log_transform(df, numerical_columns):
+    """
+    Apply log transformation to specified numerical columns in a PySpark DataFrame.
 
+    Parameters:
+    - df: PySpark DataFrame
+    - numerical_columns: List of numerical column names to be log-transformed
 
+    Returns:
+    - Transformed PySpark DataFrame
+    """
+
+    # Apply log transformation to specified columns
+    for column in numerical_columns:
+        # Check if the minimum value is greater than zero
+        min_value = df.agg({column: "min"}).collect()[0][0]
+        
+        if min_value > 0:
+            # Apply log transformation
+            df = df.withColumn(column + '_log', F.log(F.col(column) + 1))
+        else:
+            print(f"Skipping log transformation for column '{column}' due to non-positive minimum value.")
+            
+    return df
 
 def mean_normalization(df, column_name, mean_value):
     """
@@ -184,6 +206,9 @@ def process_data(input_path, output_path, operations):
         elif transformation['operation'] == 'detect_outliers':
             numerical_columns = [column[0] for column in df.dtypes if column[1]=='int']
             df = detectOutliers(df,transformation['column'], numerical_columns)
+        elif transformation['operation'] == 'log_transformation':
+            numerical_columns = [column[0] for column in df.dtypes if column[1]=='int']
+            df = log_transform(df,transformation['column'], numerical_columns)
 
     # Write the processed DataFrame to Google Cloud Storage
     df.coalesce(1).write.csv(output_path , header=True, mode="overwrite")
