@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedFile = null; // contains our complete file
     let jsonSelectedFile = null; // contains the json file
     let filename = null; // contains the filename without extension
-    const header = ["", "auto"]; // contains the header of the csv file
+    const header = ["auto"]; // contains the header of the csv file
 
     // prod IP
     // whenever IP changed, update both prod_ip and backend 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const backend = 'http://34.174.91.237:8000'
 
 
-    const sparkOperations = ['', 'auto', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization', 'categorial_encoding', 'fillna', 'cast','detect_outliers','log_transformation'];
+    const sparkOperations = ['auto', 'filter', 'withColumn', 'drop', 'groupBy', 'agg', 'orderBy', 'mean_normalization', 'categorial_encoding', 'fillna', 'cast','detect_outliers','log_transformation'];
 
     fileInput.addEventListener('change', (event) => {
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Assuming the header is in the first line of the CSV
                 const firstLine = content.split('\n')[0];
-                header.splice(2, header.length, ...firstLine.split(','));
+                header.splice(1, header.length, ...firstLine.split(','));
 
                 // Log or use the header array as needed
                 console.log('CSV Header:', header);
@@ -162,6 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const cleaningRulesJSON = JSON.stringify(rules, null, 2);
+
+        if(cleaningRulesJSON == "[]") {
+            alert("Please add atleast one rule");
+            return;
+        }
         console.log('Generated Cleaning Rules:', cleaningRulesJSON);
 
         // Display the generated JSON on the web page
@@ -243,8 +248,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (error.response && error.response.status === 500) {
                 console.log('No response');
+                hideLoader();
             } else {
                 console.log('Error occurred');
+                hideLoader();
             }
         }
     });
