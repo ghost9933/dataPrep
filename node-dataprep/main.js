@@ -245,7 +245,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Error:', error);
-
+            hideLoader();
+            alert("An error has occured to process your request. Please Retry!");
+            
             if (error.response && error.response.status === 500) {
                 console.log('No response');
                 hideLoader();
