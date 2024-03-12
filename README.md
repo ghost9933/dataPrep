@@ -36,7 +36,7 @@ DataPrep is a one-stop comprehensive cloud-native platform for data pre-processi
 |-------------------|------------------------------------------------------------------------------------------------------------------|
 | Ashish Shah       | Explored data processing techniques, developed backend Django REST API, automated job creation, and more.        |
 | Manan Arora       | Designed dynamic web application, explored frontend options, setup node.js server, automated UI components, etc. |
-| Nikhil Nandkumar  | Set up cloud infrastructure, created functions for data cleaning, designed data processing modules, CI/CD setup. | 
+| Nikhil Mhatre     | Set up cloud infrastructure, created functions for data cleaning, designed data processing modules, CI/CD setup. | 
 
 ## 🖼️ Screenshots and Video
 
