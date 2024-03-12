@@ -54,7 +54,7 @@ DataPrep is a one-stop comprehensive cloud-native platform for data pre-processi
 
 ### Project Walkthrough
 
-<a href = "https://drive.google.com/file/d/1tb23HpwpZvkQe5CihA04hxYhsz2TWuFf/view" target = "_blank"/>
+<a href = "https://drive.google.com/file/d/1tb23HpwpZvkQe5CihA04hxYhsz2TWuFf/view" target = "_blank">Click here</a>
 
 # Developer Setup Instructions
 
