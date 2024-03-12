@@ -1,3 +1,53 @@
+# DataPrep 🛠️
+
+## 📝 Project Description
+
+DataPrep is a one-stop comprehensive cloud-native platform for data pre-processing and basic statistics, hosted on Google Cloud Platform(Due to budget constraints, the project is no longer hosted). It facilitates users to upload, pre-process, and analyze large datasets for various machine learning and data science tasks.
+
+## 🚀 Features
+
+- **Upload and Pre-process Datasets**: Users can upload datasets and perform various pre-processing operations such as cleaning data, handling NaN values, normalizing numerical data, encoding categorical data, and detecting outliers.
+- **Scalable Solution**: DataPrep offers a user-friendly and scalable solution for data pre-processing and analysis.
+- **Automated Processing**: Once the user specifies the processing operations, the application automatically processes the dataset and provides a pre-signed URL for downloading the processed data.
+
+## 💻 Technologies Used
+
+- **Frontend**: Node.js, HTML, CSS, Bootstrap, JavaScript
+- **Backend**: Python, Django, PySpark
+- **Cloud Infrastructure**: Google Compute Engine, Google Cloud Storage, Dataproc, Cloud Functions
+- **CI/CD**: Jenkins
+
+## 🏗️ Architecture
+
+- **User Interaction**: Users upload datasets through a web interface hosted on Google Compute Engine.
+- **Processing**: Backend components process user requests, trigger Dataproc jobs for data processing, and provide pre-signed URLs for downloading processed data.
+- **Communication**: Interaction between components is facilitated through REST API calls.
+
+## 📆 Timeline
+
+- **Phase 1 (By October 28th, 2023)**: Implemented basic website for single data transformation.
+- **Phase 2 (By December 2nd, 2023)**: Enhanced functionality for multiple data processing steps, download links for processed data, and cloud storage purging.
+
+## 🛠️ Implementation Details
+
+- **Frontend-Backend Interaction**: Frontend communicates with backend through REST API calls.
+- **Data Processing**: Dataproc clusters process data based on user-defined configurations.
+- **CI/CD**: Jenkins pipeline for automated deployment and testing.
+
+## 🖼️ Screenshots and Video
+
+### Landing Page
+![Landing Page](screenshots/landing_page.png)
+
+### Upload Dataset
+![Upload Dataset](screenshots/upload_dataset.png)
+
+### Data Processing
+![Data Processing](screenshots/data_processing.png)
+
+### Video
+
+
 # Developer Setup Instructions
 
 Welcome to the project! To get started, follow these steps to set up your development environment.
