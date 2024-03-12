@@ -23,10 +23,6 @@ DataPrep is a one-stop comprehensive cloud-native platform for data pre-processi
 - **Processing**: Backend components process user requests, trigger Dataproc jobs for data processing, and provide pre-signed URLs for downloading processed data.
 - **Communication**: Interaction between components is facilitated through REST API calls.
 
-## 📆 Timeline
-
-- **Phase 1 (By October 28th, 2023)**: Implemented basic website for single data transformation.
-- **Phase 2 (By December 2nd, 2023)**: Enhanced functionality for multiple data processing steps, download links for processed data, and cloud storage purging.
 
 ## 🛠️ Implementation Details
 
