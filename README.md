@@ -50,7 +50,7 @@ DataPrep is a one-stop comprehensive cloud-native platform for data pre-processi
 ![Data Processing](screenshots/rules-apply.png)
 
 ### Output
-![Data Processing](screenshots/output-link.png)
+[Data Processing](screenshots/output-link.png)
 
 ### Video
 
