@@ -30,6 +30,14 @@ DataPrep is a one-stop comprehensive cloud-native platform for data pre-processi
 - **Data Processing**: Dataproc clusters process data based on user-defined configurations.
 - **CI/CD**: Jenkins pipeline for automated deployment and testing.
 
+## ✍️ Project Contribution
+
+| Team Member       | Contribution                                                                                                     |
+|-------------------|------------------------------------------------------------------------------------------------------------------|
+| Ashish Shah       | Explored data processing techniques, developed backend Django REST API, automated job creation, and more.        |
+| Manan Arora       | Designed dynamic web application, explored frontend options, setup node.js server, automated UI components, etc. |
+| Nikhil Nandkumar  | Set up cloud infrastructure, created functions for data cleaning, designed data processing modules, CI/CD setup. | 
+
 ## 🖼️ Screenshots and Video
 
 ### Landing Page
@@ -46,7 +54,7 @@ DataPrep is a one-stop comprehensive cloud-native platform for data pre-processi
 
 ### Video
 
-
+![Project Walkthrough](https://drive.google.com/file/d/1tb23HpwpZvkQe5CihA04hxYhsz2TWuFf/view)
 
 # Developer Setup Instructions
 
