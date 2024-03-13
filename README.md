@@ -4,6 +4,8 @@
 
 DataPrep is a one-stop comprehensive cloud-native platform for data pre-processing and basic statistics, hosted on Google Cloud Platform(Due to budget constraints, the project is no longer hosted). It facilitates users to upload, pre-process, and analyze large datasets for various machine learning and data science tasks.
 
+🚀 **Watch our Project Walkthrough Video First!** Dive into the heart of DataPrep by watching our captivating project walkthrough. See how our platform empowers users to effortlessly preprocess and analyze datasets for their machine-learning endeavors. [Click here](https://drive.google.com/file/d/1tb23HpwpZvkQe5CihA04hxYhsz2TWuFf/view) to begin your journey!
+
 ## 🚀 Features
 
 - **Upload and Pre-process Datasets**: Users can upload datasets and perform various pre-processing operations such as cleaning data, handling NaN values, normalizing numerical data, encoding categorical data, and detecting outliers.
@@ -51,10 +53,6 @@ DataPrep is a one-stop comprehensive cloud-native platform for data pre-processi
 
 ### Output
 ![Data Processing](screenshots/output-link.png)
-
-### Project Walkthrough
-
-<a href = "https://drive.google.com/file/d/1tb23HpwpZvkQe5CihA04hxYhsz2TWuFf/view" target = "_blank">Click here</a>
 
 # Developer Setup Instructions
 
